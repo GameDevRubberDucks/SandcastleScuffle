@@ -17,6 +17,15 @@ public class Grid_Mover : MonoBehaviour
 
 
     //--- Methods ---//
+    public void PlaceOnGrid(Grid_Controller _grid, Vector2 _startCoord)
+    {
+        // Store the data
+        m_grid = _grid;
+
+        // Move to the starting coordinate
+        MoveTo(_startCoord);
+    }
+
     public void MoveTo(Vector2 _newGridLoc)
     {
         // Grab the new square from the grid
