@@ -28,6 +28,7 @@ public class Grid_Controller : MonoBehaviour
 
 
     //--- Private Variables ---//
+    private Vector2 m_gridDimensions;
     private List<Grid_Row> m_rows;
 
 
@@ -47,6 +48,10 @@ public class Grid_Controller : MonoBehaviour
     {
         // Clear the existing grid
         ClearGrid();
+
+        // Calculate the new full grid size, including both the paths and the sandcastles
+        m_gridDimensions.x = m_gridPathCounts.x + 2;
+        m_gridDimensions.y = m_gridPathCounts.y;
 
         // Keep track of which grid coordinate we are on
         // The grid starts at 0,0 in the top left
@@ -81,6 +86,28 @@ public class Grid_Controller : MonoBehaviour
 
 
 
+    //--- Getters ---//
+    public Vector3 GetWorldPosFromCoord(Vector2 _gridCoord)
+    {
+        // Convert a grid coord (from top left) to an actual Unity position
+        Vector3 topLeftPos = this.transform.position;
+        Vector2 scaledGridPos = (_gridCoord * m_gridSquareSize);
+        return new Vector3(scaledGridPos.x, scaledGridPos.y, 0.0f) + topLeftPos;
+    }
+
+    public Grid_Square GetGridSquare(Vector2 _gridCoord)
+    {
+        // Calculate the indices for the lists
+        // Use modulo to allow for wrapping and prevent going out of bounds
+        int rowIdx = (int)_gridCoord.y % (int)m_gridPathCounts.y;
+        int colIdx = (int)_gridCoord.x % (int)m_gridPathCounts.x;
+
+        // Return the grid square at the given index
+        return m_rows[rowIdx].m_squares[colIdx];
+    }
+
+
+
     //--- Utility Methods ---//
     private Grid_Square SpawnSquare(GameObject _squarePrefab, Transform _rowParent, ref Vector2 _gridCoord)
     {
@@ -88,20 +115,18 @@ public class Grid_Controller : MonoBehaviour
         Vector3 spawnLoc = GetWorldPosFromCoord(_gridCoord);
 
         // Instantiate the prefab but keep a reference to it
-        var newSquare = Instantiate(_squarePrefab, spawnLoc, Quaternion.identity, _rowParent);
+        var newSquareObj = Instantiate(_squarePrefab, spawnLoc, Quaternion.identity, _rowParent);
+
+        // Grab the square script off the object and return it
+        var squareComp = newSquareObj.GetComponent<Grid_Square>();
+
+        // Set the square's coordinate
+        squareComp.GridCoord = _gridCoord;
 
         // Move to the next grid position horizontally
         _gridCoord.x++;
 
-        // Grab the square script off the object and return it
-        return newSquare.GetComponent<Grid_Square>();
-    }
-
-    private Vector3 GetWorldPosFromCoord(Vector2 _gridCoord)
-    {
-        // Convert a grid coord (from top left) to an actual Unity position
-        Vector3 topLeftPos = this.transform.position;
-        Vector2 scaledGridPos = (_gridCoord * m_gridSquareSize);
-        return new Vector3(scaledGridPos.x, scaledGridPos.y, 0.0f) + topLeftPos;
+        // Return the square 
+        return squareComp;
     }
 }

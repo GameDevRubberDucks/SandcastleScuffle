@@ -91,6 +91,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\Studio Assets\Scripts\Grid_Controller.cs" />
     <Compile Include="Assets\Studio Assets\Scripts\Grid_Square.cs" />
+    <Compile Include="Assets\Studio Assets\Scripts\Grid_Mover.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
