@@ -15,7 +15,31 @@ public class Grid_Mover : MonoBehaviour
     private Grid_Square m_currentSquare;
 
 
+    private void Update()
+    {
+        // TEMP: Manually place onto the grid and move around
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            m_grid = FindObjectOfType<Grid_Controller>();
+            PlaceOnGrid(m_grid, m_grid.GetRandCastleSquare(true).GridCoord);
+        }
+        else if (Input.GetKeyDown(KeyCode.Return))
+        {
+            m_grid = FindObjectOfType<Grid_Controller>();
+            PlaceOnGrid(m_grid, m_grid.GetRandCastleSquare(false).GridCoord);
+        }
 
+        int moveDistance = (Input.GetKey(KeyCode.LeftShift)) ? 2 : 1;
+
+        if (Input.GetKeyDown(KeyCode.W))
+            Move(Grid_MoveDir.Up, moveDistance);
+        else if (Input.GetKeyDown(KeyCode.A))
+            Move(Grid_MoveDir.Left, moveDistance);
+        else if (Input.GetKeyDown(KeyCode.S))
+            Move(Grid_MoveDir.Down, moveDistance);
+        else if (Input.GetKeyDown(KeyCode.D))
+            Move(Grid_MoveDir.Right, moveDistance);
+    }
     //--- Methods ---//
     public void PlaceOnGrid(Grid_Controller _grid, Vector2 _startCoord)
     {
@@ -48,7 +72,7 @@ public class Grid_Mover : MonoBehaviour
                 break;
 
             case Grid_MoveDir.Down:
-                newGridLoc += (Vector2.down * _distance);
+                newGridLoc -= (Vector2.down * _distance);
                 break;
 
             case Grid_MoveDir.Left:
@@ -57,7 +81,7 @@ public class Grid_Mover : MonoBehaviour
 
             case Grid_MoveDir.Up:
             default:
-                newGridLoc += (Vector2.up * _distance);
+                newGridLoc -= (Vector2.up * _distance);
                 break;
         }
 

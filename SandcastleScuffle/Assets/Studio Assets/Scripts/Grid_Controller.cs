@@ -16,6 +16,7 @@ public class Grid_Row
     }
 }
 
+[ExecuteAlways]
 public class Grid_Controller : MonoBehaviour
 {
     //--- Public Variables ---//
@@ -80,7 +81,7 @@ public class Grid_Controller : MonoBehaviour
 
             // Move down to the next row
             nextGridCoord.x = 0;
-            nextGridCoord.y--;
+            nextGridCoord.y++;
         }
     }
 
@@ -90,8 +91,10 @@ public class Grid_Controller : MonoBehaviour
     public Vector3 GetWorldPosFromCoord(Vector2 _gridCoord)
     {
         // Convert a grid coord (from top left) to an actual Unity position
+        // Have to reverse the y-coordinate so it isn't negative but still goes from top to bottom
         Vector3 topLeftPos = this.transform.position;
         Vector2 scaledGridPos = (_gridCoord * m_gridSquareSize);
+        scaledGridPos.y *= -1.0f;
         return new Vector3(scaledGridPos.x, scaledGridPos.y, 0.0f) + topLeftPos;
     }
 
@@ -104,6 +107,17 @@ public class Grid_Controller : MonoBehaviour
 
         // Return the grid square at the given index
         return m_rows[rowIdx].m_squares[colIdx];
+    }
+
+    public Grid_Square GetRandCastleSquare(bool _leftSide)
+    {
+        // Randomly select a row
+        int rowIdx = Random.Range(0, m_rows.Count);
+        var row = m_rows[rowIdx];
+
+        // Return the left or right sandcastle
+        // The left sandcastle is always the first square and the right is always the last
+        return (_leftSide) ? row.m_squares[0] : row.m_squares[row.m_squares.Count - 1];
     }
 
 
