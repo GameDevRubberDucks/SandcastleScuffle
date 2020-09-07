@@ -15,6 +15,8 @@ public class Grid_Mover : MonoBehaviour
     private Grid_Square m_currentSquare;
 
 
+
+    //--- Unity Methods ---//
     private void Update()
     {
         // TEMP: Manually place onto the grid and move around
@@ -40,6 +42,9 @@ public class Grid_Mover : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.D))
             Move(Grid_MoveDir.Right, moveDistance);
     }
+
+
+
     //--- Methods ---//
     public void PlaceOnGrid(Grid_Controller _grid, Vector2 _startCoord)
     {
@@ -72,7 +77,7 @@ public class Grid_Mover : MonoBehaviour
                 break;
 
             case Grid_MoveDir.Down:
-                newGridLoc -= (Vector2.down * _distance);
+                newGridLoc += (Vector2.down * _distance);
                 break;
 
             case Grid_MoveDir.Left:
@@ -81,7 +86,7 @@ public class Grid_Mover : MonoBehaviour
 
             case Grid_MoveDir.Up:
             default:
-                newGridLoc -= (Vector2.up * _distance);
+                newGridLoc += (Vector2.up * _distance);
                 break;
         }
 
