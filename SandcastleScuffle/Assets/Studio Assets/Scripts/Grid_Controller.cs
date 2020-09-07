@@ -23,8 +23,9 @@ public class Grid_Controller : MonoBehaviour
     public Transform m_squareParent;
     public GameObject m_pathPrefab;
     public GameObject m_castlePrefab;
-    public Vector2 m_gridPathCounts;
-    public float m_gridSquareSize;
+    public float m_gridSquareWorldSize;
+    public int m_numRows;
+    public int m_pathLength;
     public int m_castleCountPerSide;
 
 
@@ -52,9 +53,9 @@ public class Grid_Controller : MonoBehaviour
         // Clear the existing grid
         ClearGrid();
 
-        // Calculate the new full grid size, including both the paths and the sandcastles
-        m_gridDimensionCount.x = m_gridPathCounts.x + (2.0f * m_castleCountPerSide);
-        m_gridDimensionCount.y = m_gridPathCounts.y;
+        // Calculate the new full grid counts (ie: the number of discrete cells NOT in world space), including both the paths and the sandcastles
+        m_gridDimensionCount.x = m_pathLength + (2.0f * m_castleCountPerSide);
+        m_gridDimensionCount.y = m_numRows;
 
         // Calculate the new bottom left position in world space
         CalculateBottomLeftWorldPos();
@@ -79,7 +80,7 @@ public class Grid_Controller : MonoBehaviour
                 newRow.AddSquare(SpawnSquare(m_castlePrefab, newRowObj.transform, ref nextGridCoord));
 
             // Add the paths in the middle
-            for (int col = 0; col < m_gridPathCounts.x; col++)
+            for (int col = 0; col < m_pathLength; col++)
                 newRow.AddSquare(SpawnSquare(m_pathPrefab, newRowObj.transform, ref nextGridCoord));
 
             // Add the last set of sandcastles
@@ -91,6 +92,7 @@ public class Grid_Controller : MonoBehaviour
         }
 
         // Finally, reverse the rows within the array so they match the order in the scene (descending order)
+        // This way, the coordinates of each tile can be used to directly access the arrays
         m_rows.Reverse();
     }
 
@@ -100,7 +102,7 @@ public class Grid_Controller : MonoBehaviour
     public Vector3 GetWorldPosFromCoord(Vector2 _gridCoord)
     {
         // Offset from the bottom left position
-        Vector2 scaledGridPos = (_gridCoord * m_gridSquareSize);
+        Vector2 scaledGridPos = (_gridCoord * m_gridSquareWorldSize);
         return new Vector3(scaledGridPos.x, scaledGridPos.y, 0.0f) + m_bottomLeftWorldPos;
     }
 
@@ -186,13 +188,13 @@ public class Grid_Controller : MonoBehaviour
         {
             // If even number, the two central squares should be evenly spaced around the center
             int halfUnitCount = ((int)m_gridDimensionCount.x / 2) - 1;
-            m_bottomLeftWorldPos.x -= ((halfUnitCount * m_gridSquareSize) + (m_gridSquareSize / 2.0f));
+            m_bottomLeftWorldPos.x -= ((halfUnitCount * m_gridSquareWorldSize) + (m_gridSquareWorldSize / 2.0f));
         }
         else
         {
             // If odd, the center square should be directly on top of the center
             int halfUnitCount = ((int)m_gridDimensionCount.x - 1) / 2;
-            m_bottomLeftWorldPos.x -= (halfUnitCount * m_gridSquareSize);
+            m_bottomLeftWorldPos.x -= (halfUnitCount * m_gridSquareWorldSize);
         }
 
         // Center vertically next
@@ -200,13 +202,13 @@ public class Grid_Controller : MonoBehaviour
         {
             // If even number, the two central squares should be evenly spaced around the center
             int halfUnitCount = ((int)m_gridDimensionCount.y / 2) - 1;
-            m_bottomLeftWorldPos.y -= ((halfUnitCount * m_gridSquareSize) + (m_gridSquareSize / 2.0f));
+            m_bottomLeftWorldPos.y -= ((halfUnitCount * m_gridSquareWorldSize) + (m_gridSquareWorldSize / 2.0f));
         }
         else
         {
             // If odd, the center square should be directly on top of the center
             int halfUnitCount = ((int)m_gridDimensionCount.y - 1) / 2;
-            m_bottomLeftWorldPos.y -= (halfUnitCount * m_gridSquareSize);
+            m_bottomLeftWorldPos.y -= (halfUnitCount * m_gridSquareWorldSize);
         }
     }
 }
