@@ -30,6 +30,7 @@ public class Grid_Controller : MonoBehaviour
 
 
     //--- Private Variables ---//
+    private Vector3 m_bottomLeftWorldPos;
     private Vector2 m_gridDimensionCount;
     private List<Grid_Row> m_rows;
 
@@ -54,6 +55,9 @@ public class Grid_Controller : MonoBehaviour
         // Calculate the new full grid size, including both the paths and the sandcastles
         m_gridDimensionCount.x = m_gridPathCounts.x + (2.0f * m_castleCountPerSide);
         m_gridDimensionCount.y = m_gridPathCounts.y;
+
+        // Calculate the new bottom left position in world space
+        CalculateBottomLeftWorldPos();
 
         // Keep track of which grid coordinate we are on
         Vector2 nextGridCoord = new Vector2(0.0f, m_gridDimensionCount.y);
@@ -95,11 +99,9 @@ public class Grid_Controller : MonoBehaviour
     //--- Getters ---//
     public Vector3 GetWorldPosFromCoord(Vector2 _gridCoord)
     {
-        // Convert a grid coord (from top left) to an actual Unity position
-        // Have to reverse the y-coordinate so it isn't negative but still goes from top to bottom
-        Vector3 topLeftPos = this.transform.position;
+        // Offset from the bottom left position
         Vector2 scaledGridPos = (_gridCoord * m_gridSquareSize);
-        return new Vector3(scaledGridPos.x, scaledGridPos.y, 0.0f) + topLeftPos;
+        return new Vector3(scaledGridPos.x, scaledGridPos.y, 0.0f) + m_bottomLeftWorldPos;
     }
 
     public Grid_Square GetGridSquare(Vector2 _gridCoord)
@@ -171,5 +173,40 @@ public class Grid_Controller : MonoBehaviour
 
         // Return the wrapped value
         return _gridCoord;
+    }
+
+    private void CalculateBottomLeftWorldPos()
+    {
+        // We will start from the center and move away to reach the bottom left corner
+        Vector3 centerPosition = this.transform.position;
+        m_bottomLeftWorldPos = centerPosition;
+
+        // Determine the horizontal amount required to center first
+        if (m_gridDimensionCount.x % 2 == 0)
+        {
+            // If even number, the two central squares should be evenly spaced around the center
+            int halfUnitCount = ((int)m_gridDimensionCount.x / 2) - 1;
+            m_bottomLeftWorldPos.x -= ((halfUnitCount * m_gridSquareSize) + (m_gridSquareSize / 2.0f));
+        }
+        else
+        {
+            // If odd, the center square should be directly on top of the center
+            int halfUnitCount = ((int)m_gridDimensionCount.x - 1) / 2;
+            m_bottomLeftWorldPos.x -= (halfUnitCount * m_gridSquareSize);
+        }
+
+        // Center vertically next
+        if (m_gridDimensionCount.y % 2 == 0)
+        {
+            // If even number, the two central squares should be evenly spaced around the center
+            int halfUnitCount = ((int)m_gridDimensionCount.y / 2) - 1;
+            m_bottomLeftWorldPos.y -= ((halfUnitCount * m_gridSquareSize) + (m_gridSquareSize / 2.0f));
+        }
+        else
+        {
+            // If odd, the center square should be directly on top of the center
+            int halfUnitCount = ((int)m_gridDimensionCount.y - 1) / 2;
+            m_bottomLeftWorldPos.y -= (halfUnitCount * m_gridSquareSize);
+        }
     }
 }
