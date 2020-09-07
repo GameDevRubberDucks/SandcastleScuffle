@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class Grid_Row
 {
+    [SerializeField]
     public List<Grid_Square> m_squares;
 
     public Grid_Row()
@@ -31,9 +33,9 @@ public class Grid_Controller : MonoBehaviour
 
 
     //--- Private Variables ---//
-    private Vector3 m_bottomLeftWorldPos;
-    private Vector2 m_gridDimensionCount;
-    private List<Grid_Row> m_rows;
+    [HideInInspector][SerializeField] private Vector3 m_bottomLeftWorldPos;
+    [HideInInspector][SerializeField] private Vector2 m_gridDimensionCount;
+    [HideInInspector][SerializeField] private List<Grid_Row> m_rows;
 
 
 

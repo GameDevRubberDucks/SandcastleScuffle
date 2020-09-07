@@ -47,9 +47,13 @@ MonoBehaviour:
   m_squareParent: {fileID: 7579343995167304790}
   m_pathPrefab: {fileID: 1696801416541600337, guid: e7980ed32a248f74aaa9871f7069bdf0, type: 3}
   m_castlePrefab: {fileID: 247416867323972736, guid: 1e2fd769ba83a0b4682ebfd9f76ca819, type: 3}
-  m_gridPathCounts: {x: 11, y: 5}
-  m_gridSquareSize: 1
+  m_gridSquareWorldSize: 1
+  m_numRows: 5
+  m_pathLength: 9
   m_castleCountPerSide: 1
+  m_bottomLeftWorldPos: {x: -8, y: -4.5, z: 0}
+  m_gridDimensionCount: {x: 17, y: 10}
+  m_rows: []
 --- !u!1 &7579343995167304793
 GameObject:
   m_ObjectHideFlags: 0
@@ -74,7 +78,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7579343995167304793}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: -2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 7579343994271671946}
