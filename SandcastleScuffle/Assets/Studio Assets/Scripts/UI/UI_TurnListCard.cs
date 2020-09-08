@@ -73,10 +73,19 @@ public class UI_TurnListCard : MonoBehaviour
 
     void CardUpdate()
     {
-        //set the backgorund colour base on the state chosen for the card.
-        bgColour.color = stateBackgroundColours[(int)cardState];
-
         //if the event enum is out of range then just return function.
+        //this mostly used to avoid hitting the END enum (used like .length)
+        if ((int)cardState >= stateBackgroundColours.Length)
+        {
+            return;
+        }
+        else
+        {
+            //set the backgorund colour base on the state chosen for the card.
+            bgColour.color = stateBackgroundColours[(int)cardState];
+        }
+
+        // same use as the above
         if ((int)cardEvent >= eventIcons.Length)
         {
             return;

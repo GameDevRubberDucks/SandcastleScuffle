@@ -403,6 +403,18 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1819956135818238388, guid: 47f5be3eeec49fd4f8aeceda4ed61d95, type: 3}
+      propertyPath: eventIcons.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 4e376ce0a09f6ac4e90a032f040b4129, type: 3}
+    - target: {fileID: 1819956135818238388, guid: 47f5be3eeec49fd4f8aeceda4ed61d95, type: 3}
+      propertyPath: eventIcons.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 1a3b594e439346847a0200309fb5f4d1, type: 3}
+    - target: {fileID: 1819956135818238388, guid: 47f5be3eeec49fd4f8aeceda4ed61d95, type: 3}
+      propertyPath: eventIcons.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 538ea57bfd9d5ec48a1c9c66a1ec096f, type: 3}
     - target: {fileID: 1819956135870985052, guid: 47f5be3eeec49fd4f8aeceda4ed61d95, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
