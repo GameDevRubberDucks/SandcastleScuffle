@@ -2,10 +2,14 @@
 
 public enum Grid_MoveDir
 {
+    None,
+
     Up,
     Down,
     Left,
-    Right
+    Right,
+
+    Count
 }
 
 public class Grid_Mover : MonoBehaviour
@@ -13,35 +17,6 @@ public class Grid_Mover : MonoBehaviour
     //--- Private Variables ---//
     private Grid_Controller m_grid;
     private Grid_Square m_currentSquare;
-
-
-
-    //--- Unity Methods ---//
-    private void Update()
-    {
-        // TEMP: Manually place onto the grid and move around
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            m_grid = FindObjectOfType<Grid_Controller>();
-            PlaceOnGrid(m_grid, m_grid.GetRandCastleSquare(true).GridCoord);
-        }
-        else if (Input.GetKeyDown(KeyCode.Return))
-        {
-            m_grid = FindObjectOfType<Grid_Controller>();
-            PlaceOnGrid(m_grid, m_grid.GetRandCastleSquare(false).GridCoord);
-        }
-
-        int moveDistance = (Input.GetKey(KeyCode.LeftShift)) ? 2 : 1;
-
-        if (Input.GetKeyDown(KeyCode.W))
-            Move(Grid_MoveDir.Up, moveDistance);
-        else if (Input.GetKeyDown(KeyCode.A))
-            Move(Grid_MoveDir.Left, moveDistance);
-        else if (Input.GetKeyDown(KeyCode.S))
-            Move(Grid_MoveDir.Down, moveDistance);
-        else if (Input.GetKeyDown(KeyCode.D))
-            Move(Grid_MoveDir.Right, moveDistance);
-    }
 
 
 
@@ -92,5 +67,13 @@ public class Grid_Mover : MonoBehaviour
 
         // Move to the new coordinate
         MoveTo(newGridLoc);
+    }
+
+
+
+    //--- Setters and Getters ---//
+    public Grid_Square CurrentSquare
+    {
+        get => m_currentSquare;
     }
 }
