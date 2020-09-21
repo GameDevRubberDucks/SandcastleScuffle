@@ -110,13 +110,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2114802a853f0f849b38cfae4e0826e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardState: 0
-  cardEvent: 0
+  turnState: 0
+  turnEvent: 0
   iconComponent: {fileID: 4696191004923015551}
   eventIcons:
+  - {fileID: 21300000, guid: 4e376ce0a09f6ac4e90a032f040b4129, type: 3}
   - {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 21300000, guid: 1a3b594e439346847a0200309fb5f4d1, type: 3}
   - {fileID: 10915, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 21300000, guid: 538ea57bfd9d5ec48a1c9c66a1ec096f, type: 3}
+  - {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   - {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   currentTurn: {r: 0, g: 1, b: 0.12013221, a: 1}
   nextTurn: {r: 1, g: 0.95985556, b: 0, a: 1}
