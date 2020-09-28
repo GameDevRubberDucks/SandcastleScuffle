@@ -33,9 +33,20 @@ public class Grid_Controller : MonoBehaviour
 
 
     //--- Private Variables ---//
+    private Crab_Manager m_crabManager;
     [HideInInspector][SerializeField] private Vector3 m_bottomLeftWorldPos;
     [HideInInspector][SerializeField] private Vector2 m_gridDimensionCount;
     [HideInInspector][SerializeField] private List<Grid_Row> m_rows;
+
+
+
+    //--- Unity Methods ---//
+    private void Start()
+    {
+        // Set up the mappings for the crabs
+        m_crabManager = FindObjectOfType<Crab_Manager>();
+        m_crabManager.SetUpCrabGrid(m_rows);
+    }
 
 
 
@@ -96,6 +107,10 @@ public class Grid_Controller : MonoBehaviour
         // Finally, reverse the rows within the array so they match the order in the scene (descending order)
         // This way, the coordinates of each tile can be used to directly access the arrays
         m_rows.Reverse();
+
+        // Send the list of grid squares to the crab controller to manage
+        Crab_Manager crabManager = FindObjectOfType<Crab_Manager>();
+        crabManager.SetUpCrabGrid(m_rows);
     }
 
 

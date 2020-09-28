@@ -13,6 +13,7 @@ public class Crab_Manager : MonoBehaviour
     //--- Private Variables ---//
     private List<Crab_Controller> m_leftTeamCrabs;
     private List<Crab_Controller> m_rightTeamCrabs;
+    private Dictionary<Grid_Square, Crab_Controller> m_crabMappings;
 
 
 
@@ -74,6 +75,99 @@ public class Crab_Manager : MonoBehaviour
             MoveCrabsInList(m_leftTeamCrabs);
         else
             MoveCrabsInList(m_rightTeamCrabs);
+    }
+
+    public void SetUpCrabGrid(List<Grid_Row> _gridRows)
+    {
+        // Initialize the mapping
+        m_crabMappings = new Dictionary<Grid_Square, Crab_Controller>();
+
+        // Add all of the squares to the list
+        foreach(Grid_Row row in _gridRows)
+        {
+            foreach(Grid_Square square in row.m_squares)
+            {
+                m_crabMappings.Add(square, null);
+            }
+        }
+    }
+
+    public Crab_Controller DetermineCrabFightWinner(Crab_Controller _crabA, Crab_Controller _crabB)
+    {
+        // Return the winner of the fight or null if both crabs have died
+        if (_crabA.CrabType == Crab_Type.Rock)
+        {
+            switch (_crabB.CrabType)
+            {
+                case (Crab_Type.Rock):
+                    return null;
+
+                case (Crab_Type.Paper):
+                    return _crabB;
+
+                case (Crab_Type.Scissors):
+                    return _crabA;
+            }
+        }
+        else if (_crabA.CrabType == Crab_Type.Paper)
+        {
+            switch (_crabB.CrabType)
+            {
+                case (Crab_Type.Rock):
+                    return _crabA;
+
+                case (Crab_Type.Paper):
+                    return null;
+
+                case (Crab_Type.Scissors):
+                    return _crabB;
+            }
+        }
+        else if (_crabA.CrabType == Crab_Type.Scissors)
+        {
+            switch (_crabB.CrabType)
+            {
+                case (Crab_Type.Rock):
+                    return _crabB;
+
+                case (Crab_Type.Paper):
+                    return _crabA;
+
+                case (Crab_Type.Scissors):
+                    return null;
+            }
+        }
+
+        return null;
+    }
+
+    public System.Collections.IEnumerator HandleCrabDeath(Crab_Controller _crab)
+    {
+        // Remove it from the grid
+        Grid_Square crabSquare = _crab.GridMover.CurrentSquare;
+        SetCrabAtSquare(crabSquare, null);
+
+        // Need to wait until the end of frame before removing from the lists
+        // This is because the list is likely iterating at the moment from the MoveCrabsInList() function
+        // Changing the list now will cause an exception in that function
+        yield return new WaitForEndOfFrame();
+
+        // Remove it from the relevant list
+        if (m_leftTeamCrabs.Contains(_crab)) m_leftTeamCrabs.Remove(_crab);
+        if (m_rightTeamCrabs.Contains(_crab)) m_rightTeamCrabs.Remove(_crab);
+    }
+
+
+
+    //--- Setters and Getters ---//
+    public void SetCrabAtSquare(Grid_Square _square, Crab_Controller _crab)
+    {
+        m_crabMappings[_square] = _crab;
+    }
+
+    public Crab_Controller GetCrabAtSquare(Grid_Square _square)
+    {
+        return m_crabMappings[_square];
     }
 
 

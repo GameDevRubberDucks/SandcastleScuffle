@@ -49,11 +49,20 @@ public class Grid_Mover : MonoBehaviour
 
     public void Move(Grid_MoveDir _direction, int _distance = 1)
     {
+        // Determine the new coordinate
+        Vector2 newGridLoc = NextGridLocation(m_currentSquare.GridCoord, _direction, _distance);
+
+        // Move to the new coordinate
+        MoveTo(newGridLoc);
+    }
+
+    public Vector2 NextGridLocation(Vector2 _startLoc, Grid_MoveDir _direction, int _distance = 1)
+    {
         // Get the current square's coordinate
-        Vector2 newGridLoc = m_currentSquare.GridCoord;
-        
+        Vector2 newGridLoc = _startLoc;
+
         // Calculate the new coordinate by moving in the given direction
-        switch(_direction)
+        switch (_direction)
         {
             case Grid_MoveDir.Right:
                 newGridLoc += (Vector2.right * _distance);
@@ -73,8 +82,17 @@ public class Grid_Mover : MonoBehaviour
                 break;
         }
 
-        // Move to the new coordinate
-        MoveTo(newGridLoc);
+        // Return the new value
+        return newGridLoc;
+    }
+
+    public Grid_Square DetermineNextGridSquare(Grid_MoveDir _direction, int _distance = 1)
+    {
+        // Determine the new coordinate
+        Vector2 newGridLoc = NextGridLocation(m_currentSquare.GridCoord, _direction, _distance);
+
+        // Determine which square it falls under and return it
+        return m_grid.GetGridSquare(newGridLoc);
     }
 
 
