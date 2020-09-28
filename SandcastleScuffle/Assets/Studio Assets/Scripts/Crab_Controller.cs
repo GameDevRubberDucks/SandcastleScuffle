@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public enum Crab_Type
 {
@@ -62,6 +63,23 @@ public class Crab_Controller : MonoBehaviour
 
         // Move in the desired direction
         m_gridMover.Move(dirToMove);
+    }
+
+
+
+    //--- Utility Functions ---//
+    private IEnumerator AnimateMovement(Vector3 _startPos, Vector3 _endPos, float _duration)
+    {
+        int numFrames = Mathf.CeilToInt(_duration / Time.deltaTime);
+
+        float distanceToTravel = Vector3.Distance(_startPos, _endPos);
+        Vector3 movementDir = Vector3.Normalize(_endPos - _startPos);
+
+        for (int i = 0; i < numFrames; i++)
+        {
+
+            yield return new WaitForEndOfFrame();
+        }
     }
 
 

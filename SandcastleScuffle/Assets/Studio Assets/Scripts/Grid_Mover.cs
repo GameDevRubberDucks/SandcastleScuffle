@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public enum Grid_MoveDir
 {
@@ -14,6 +15,11 @@ public enum Grid_MoveDir
 
 public class Grid_Mover : MonoBehaviour
 {
+    //--- Public Variables ---//
+    public float m_movementDuration;
+
+
+
     //--- Private Variables ---//
     private Grid_Controller m_grid;
     private Grid_Square m_currentSquare;
@@ -36,7 +42,9 @@ public class Grid_Mover : MonoBehaviour
         m_currentSquare = m_grid.GetGridSquare(_newGridLoc);
 
         // Move to the square's position
-        this.transform.position = m_currentSquare.transform.position;
+        //this.transform.position = m_currentSquare.transform.position;
+        StopAllCoroutines();
+        StartCoroutine(AnimateMovement(this.transform.position, m_currentSquare.transform.position, m_movementDuration));
     }
 
     public void Move(Grid_MoveDir _direction, int _distance = 1)
@@ -67,6 +75,25 @@ public class Grid_Mover : MonoBehaviour
 
         // Move to the new coordinate
         MoveTo(newGridLoc);
+    }
+
+
+
+    //--- Utility Functions ---//
+    private IEnumerator AnimateMovement(Vector3 _startPos, Vector3 _endPos, float _duration)
+    {
+        int numFrames = Mathf.CeilToInt(_duration / Time.deltaTime);
+
+        float distanceToTravel = Vector3.Distance(_startPos, _endPos);
+        float distancePerFrame = distanceToTravel / (float)numFrames;
+
+        Vector3 movementDir = Vector3.Normalize(_endPos - _startPos);
+
+        for (int i = 0; i < numFrames; i++)
+        {
+            this.transform.position += (movementDir * distancePerFrame);
+            yield return new WaitForEndOfFrame();
+        }
     }
 
 
