@@ -54,6 +54,23 @@ public class UI_TurnListCard : MonoBehaviour
     void Start()
     {
 
+    }
+
+    void Update()
+    {
+
+    }
+
+    //used to make sure that it runs the start function when instatiated 
+    private void Awake()
+    {
+
+    }
+
+
+    //init function
+    public void Init()
+    {
         turnState = TurnState.FUTURE;
 
         // get background component
@@ -69,25 +86,12 @@ public class UI_TurnListCard : MonoBehaviour
 
         //update card UIs
         CardUpdate();
-
-    }
-
-    void Update()
-    {
-
-    }
-
-    //used to make sure that it runs the start function when instatiated 
-    private void Awake()
-    {
-        Start();
     }
 
 
     //update the card
     public void CardUpdate()
     {
-        //if the event enum is out of range then just return function.
 
         //this mostly used to avoid hitting the END enum (used like .length)
         if ((int)turnState < stateBackgroundColours.Length)

@@ -42,20 +42,9 @@ public class UI_TurnListManager : MonoBehaviour
     //add a new turn at the end of the turn list, default version for UI use
     public void AddNewTurn()
     {
-        UI_TurnListCard newCard = Instantiate(listcardPrefab);
-
-        //assign a defualt event type
-        newCard.turnEvent = TurnEvent.OTHER;
-
-        //parent to the content object 
-        newCard.transform.SetParent(content.transform);
-
-        //add the new card to the turnlist;
-        turnList.Add(newCard);
-
+        AddNewTurn(TurnEvent.OTHER);
         //update the list order
         UpdateListState();
-
     }
 
     //variation of add new turn method. This version requires a TurnEvent as an argument. For internal use
@@ -72,8 +61,9 @@ public class UI_TurnListManager : MonoBehaviour
         //add the new card to the turnlist;
         turnList.Add(newCard);
 
-        //update the list order
-        UpdateListState();
+        //init the new turn card
+        newCard.Init();
+
     }
 
     //return the current turn
@@ -107,6 +97,8 @@ public class UI_TurnListManager : MonoBehaviour
         {
             AddNewTurn((TurnEvent)Random.Range(0, 5));
         }
+        //update the list order
+        UpdateListState();
     }
 }
 
