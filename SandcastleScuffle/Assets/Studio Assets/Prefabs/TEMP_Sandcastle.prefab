@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1924755392575278892}
   - component: {fileID: 1612675033912343590}
   - component: {fileID: 1669103372951168722}
+  - component: {fileID: -8219613018697115809}
   m_Layer: 0
   m_Name: TEMP_Sandcastle
   m_TagString: Untagged
@@ -96,6 +97,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_squareType: 1
-  m_team: 2
   m_moveDir: 0
+  m_team: 2
   m_coord: {x: 0, y: 0}
+--- !u!114 &-8219613018697115809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247416867323972736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf8908b7e6636384aa44a19ed9972816, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_destroyedColour: {r: 0.5377358, g: 0.4178363, b: 0.03804734, a: 1}

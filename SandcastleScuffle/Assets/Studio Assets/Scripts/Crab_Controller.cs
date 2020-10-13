@@ -76,8 +76,37 @@ public class Crab_Controller : MonoBehaviour
             m_crabManager.SetCrabAtSquare(m_gridMover.CurrentSquare, null);
             m_crabManager.SetCrabAtSquare(nextSquare, this);
 
-            // Move to the new square
-            m_gridMover.Move(dirToMove);
+            //// Move to the new square
+            HandleMovement(nextSquare, dirToMove);
+            //m_gridMover.Move(dirToMove);
+
+            //// Handle the different type of squares
+            //if (nextSquare.m_squareType == Grid_SquareType.Sandcastle)
+            //{
+            //    // Get the castle's info
+            //    var castleScript = nextSquare.GetComponent<Grid_Square_Castle>();
+            //    var castleTeam = castleScript.Team;
+
+            //    // If it is an enemy castle, we have destroyed it, but this crab also dies
+            //    if (!castleScript.IsDestroyed && castleTeam != m_crabTeam)
+            //    {
+            //        castleScript.MarkAsDestroyed();
+            //        this.Die();
+            //    }
+            //}
+            //else if (nextSquare.m_squareType == Grid_SquareType.Base)
+            //{
+            //    // Get the base's info
+            //    var baseScript = nextSquare.GetComponent<Grid_Square_Base>();
+            //    var baseTeam = baseScript.Team;
+
+            //    // If it is an enemy base, we have done damage to it, but this crab also dies
+            //    if (baseTeam != m_crabTeam)
+            //    {
+            //        baseScript.TakeDamage();
+            //        this.Die();
+            //    }
+            //}
         }
         else
         {
@@ -103,7 +132,8 @@ public class Crab_Controller : MonoBehaviour
                     m_crabManager.SetCrabAtSquare(nextSquare, this);
 
                     // Move to the new square
-                    m_gridMover.Move(dirToMove);
+                    //m_gridMover.Move(dirToMove);
+                    HandleMovement(nextSquare, dirToMove);
 
                     // Kill the other crab
                     crabAtSquare.Die();
@@ -137,6 +167,40 @@ public class Crab_Controller : MonoBehaviour
 
         // Destroy this object
         Destroy(this.gameObject, m_visuals.m_deathDuration);
+    }
+
+    public void HandleMovement(Grid_Square _nextSquare, Grid_MoveDir _moveDir)
+    {
+        // Move to the new square
+        m_gridMover.Move(_moveDir);
+
+        // Handle the different type of squares
+        if (_nextSquare.m_squareType == Grid_SquareType.Sandcastle)
+        {
+            // Get the castle's info
+            var castleScript = _nextSquare.GetComponent<Grid_Square_Castle>();
+            var castleTeam = castleScript.Team;
+
+            // If it is an enemy castle, we have destroyed it, but this crab also dies
+            if (!castleScript.IsDestroyed && castleTeam != m_crabTeam)
+            {
+                castleScript.MarkAsDestroyed();
+                this.Die();
+            }
+        }
+        else if (_nextSquare.m_squareType == Grid_SquareType.Base)
+        {
+            // Get the base's info
+            var baseScript = _nextSquare.GetComponent<Grid_Square_Base>();
+            var baseTeam = baseScript.Team;
+
+            // If it is an enemy base, we have done damage to it, but this crab also dies
+            if (baseTeam != m_crabTeam)
+            {
+                baseScript.TakeDamage();
+                this.Die();
+            }
+        }
     }
 
 

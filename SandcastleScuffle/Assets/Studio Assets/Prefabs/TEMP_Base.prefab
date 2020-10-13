@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7937341465669508188}
   - component: {fileID: 3220341915093930461}
   - component: {fileID: -7313214368057440639}
+  - component: {fileID: -3357562525981088620}
   m_Layer: 0
   m_Name: TEMP_Base
   m_TagString: Untagged
@@ -95,7 +96,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c496a9c014fb4d448b23569e9d875cb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_squareType: 0
+  m_squareType: 2
   m_moveDir: 0
   m_team: 2
   m_coord: {x: 0, y: 0}
+--- !u!114 &-3357562525981088620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696801416541600337}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6cbbffbeee83d674a92dfd275f6e6e14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_team: 0

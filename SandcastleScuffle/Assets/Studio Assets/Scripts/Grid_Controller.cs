@@ -94,7 +94,8 @@ public class Grid_Controller : MonoBehaviour
             newRowObj.transform.parent = m_squareParent;
 
             // Add the first base
-            newRow.AddSquare(SpawnSquare(m_basePrefab, newRowObj.transform, Crab_Team.Left_Team, ref nextGridCoord));
+            var leftBase = SpawnSquare(m_basePrefab, newRowObj.transform, Crab_Team.Left_Team, ref nextGridCoord);
+            newRow.AddSquare(leftBase);
 
             // Add the first set of sandcastles
             for (int castleNum = 0; castleNum < m_castleCountPerSide; castleNum++)
@@ -117,7 +118,8 @@ public class Grid_Controller : MonoBehaviour
             }
 
             // Add the last base
-            newRow.AddSquare(SpawnSquare(m_basePrefab, newRowObj.transform, Crab_Team.Right_Team, ref nextGridCoord));
+            var rightBase = SpawnSquare(m_basePrefab, newRowObj.transform, Crab_Team.Right_Team, ref nextGridCoord);
+            newRow.AddSquare(rightBase);
 
             // Add the row to the grid
             m_rows.Add(newRow);
