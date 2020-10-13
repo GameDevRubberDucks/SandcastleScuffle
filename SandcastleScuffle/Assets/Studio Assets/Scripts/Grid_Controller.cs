@@ -25,6 +25,7 @@ public class Grid_Controller : MonoBehaviour
     public Transform m_squareParent;
     public GameObject m_pathPrefab;
     public GameObject m_castlePrefab;
+    public GameObject m_basePrefab;
     public float m_gridSquareWorldSize;
     public int m_numRows;
     public int m_pathLength;
@@ -66,8 +67,8 @@ public class Grid_Controller : MonoBehaviour
         // Clear the existing grid
         ClearGrid();
 
-        // Calculate the new full grid counts (ie: the number of discrete cells NOT in world space), including both the paths and the sandcastles
-        m_gridDimensionCount.x = m_pathLength + (2.0f * m_castleCountPerSide);
+        // Calculate the new full grid counts (ie: the number of discrete cells NOT in world space), including the paths, the sandcastles, AND the bases
+        m_gridDimensionCount.x = m_pathLength + (2.0f * m_castleCountPerSide) + (2.0f);
         m_gridDimensionCount.y = m_numRows;
 
         // Calculate the new bottom left position in world space
@@ -88,17 +89,23 @@ public class Grid_Controller : MonoBehaviour
             var newRowObj = new GameObject("Row " + row.ToString());
             newRowObj.transform.parent = m_squareParent;
 
+            // Add the first base
+            newRow.AddSquare(SpawnSquare(m_basePrefab, newRowObj.transform, Crab_Team.Left_Team, ref nextGridCoord));
+
             // Add the first set of sandcastles
             for (int castleNum = 0; castleNum < m_castleCountPerSide; castleNum++)
-                newRow.AddSquare(SpawnSquare(m_castlePrefab, newRowObj.transform, ref nextGridCoord));
+                newRow.AddSquare(SpawnSquare(m_castlePrefab, newRowObj.transform, Crab_Team.Left_Team, ref nextGridCoord));
 
             // Add the paths in the middle
             for (int col = 0; col < m_pathLength; col++)
-                newRow.AddSquare(SpawnSquare(m_pathPrefab, newRowObj.transform, ref nextGridCoord));
+                newRow.AddSquare(SpawnSquare(m_pathPrefab, newRowObj.transform, Crab_Team.Neutral, ref nextGridCoord));
 
             // Add the last set of sandcastles
             for (int castleNum = 0; castleNum < m_castleCountPerSide; castleNum++)
-                newRow.AddSquare(SpawnSquare(m_castlePrefab, newRowObj.transform, ref nextGridCoord));
+                newRow.AddSquare(SpawnSquare(m_castlePrefab, newRowObj.transform, Crab_Team.Right_Team, ref nextGridCoord));
+
+            // Add the last base
+            newRow.AddSquare(SpawnSquare(m_basePrefab, newRowObj.transform, Crab_Team.Right_Team, ref nextGridCoord));
 
             // Add the row to the grid
             m_rows.Add(newRow);
@@ -150,7 +157,7 @@ public class Grid_Controller : MonoBehaviour
 
 
     //--- Utility Methods ---//
-    private Grid_Square SpawnSquare(GameObject _squarePrefab, Transform _rowParent, ref Vector2 _gridCoord)
+    private Grid_Square SpawnSquare(GameObject _squarePrefab, Transform _rowParent, Crab_Team _team, ref Vector2 _gridCoord)
     {
         // Calculate the spawn location in Unity coordinates
         Vector3 spawnLoc = GetWorldPosFromCoord(_gridCoord);
@@ -165,6 +172,9 @@ public class Grid_Controller : MonoBehaviour
 
         // Grab the square script off the object and return it
         var squareComp = newSquareObj.GetComponent<Grid_Square>();
+
+        // Set the square's team (neutral for path squares, left or right for castle and base squares)
+        squareComp.Team = _team;
 
         // Set the square's coordinate
         squareComp.GridCoord = _gridCoord;

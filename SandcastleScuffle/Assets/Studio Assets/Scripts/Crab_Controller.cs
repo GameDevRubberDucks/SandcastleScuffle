@@ -12,6 +12,7 @@ public enum Crab_Team
 {
     Left_Team,
     Right_Team,
+    Neutral,
 
     Num_Teams
 }

@@ -4,7 +4,8 @@
 public enum Grid_SquareType
 {
     Path,
-    Sandcastle
+    Sandcastle,
+    Base
 }
 
 [System.Serializable]
@@ -17,6 +18,7 @@ public class Grid_Square : MonoBehaviour
 
     //--- Private Variables ---//
     [SerializeField] private Grid_MoveDir m_moveDir;
+    [SerializeField] private Crab_Team m_team;
     [SerializeField] private Vector2 m_coord;
 
 
@@ -32,5 +34,11 @@ public class Grid_Square : MonoBehaviour
     {
         set => m_coord = value;
         get => m_coord;
+    }
+
+    public Crab_Team Team
+    {
+        set => m_team = value;
+        get => m_team;
     }
 }

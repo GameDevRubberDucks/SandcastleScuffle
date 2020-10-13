@@ -125,6 +125,7 @@ MonoBehaviour:
   m_squareParent: {fileID: 7579343995167304790}
   m_pathPrefab: {fileID: 1696801416541600337, guid: e7980ed32a248f74aaa9871f7069bdf0, type: 3}
   m_castlePrefab: {fileID: 247416867323972736, guid: 1e2fd769ba83a0b4682ebfd9f76ca819, type: 3}
+  m_basePrefab: {fileID: 1696801416541600337, guid: a09101091b103c24084e108fbb1efb43, type: 3}
   m_gridSquareWorldSize: 1
   m_numRows: 5
   m_pathLength: 9

@@ -96,5 +96,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_squareType: 1
+  m_team: 2
   m_moveDir: 0
   m_coord: {x: 0, y: 0}
