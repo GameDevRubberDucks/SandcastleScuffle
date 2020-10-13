@@ -38,6 +38,8 @@ public class Grid_Controller : MonoBehaviour
     [HideInInspector][SerializeField] private Vector3 m_bottomLeftWorldPos;
     [HideInInspector][SerializeField] private Vector2 m_gridDimensionCount;
     [HideInInspector][SerializeField] private List<Grid_Row> m_rows;
+    [HideInInspector][SerializeField] private List<Grid_Square> m_leftCastles;
+    [HideInInspector][SerializeField] private List<Grid_Square> m_rightCastles;
 
 
 
@@ -58,8 +60,10 @@ public class Grid_Controller : MonoBehaviour
         while (m_squareParent.childCount > 0)
             DestroyImmediate(m_squareParent.GetChild(0).gameObject);
 
-        // Reset the list of rows
+        // Reset the list of rows and squares
         m_rows = new List<Grid_Row>();
+        m_leftCastles = new List<Grid_Square>();
+        m_rightCastles = new List<Grid_Square>();
     }
 
     public void GenerateGrid()
@@ -94,7 +98,11 @@ public class Grid_Controller : MonoBehaviour
 
             // Add the first set of sandcastles
             for (int castleNum = 0; castleNum < m_castleCountPerSide; castleNum++)
-                newRow.AddSquare(SpawnSquare(m_castlePrefab, newRowObj.transform, Crab_Team.Left_Team, ref nextGridCoord));
+            {
+                var castleSquare = SpawnSquare(m_castlePrefab, newRowObj.transform, Crab_Team.Left_Team, ref nextGridCoord);
+                newRow.AddSquare(castleSquare);
+                m_leftCastles.Add(castleSquare);
+            }
 
             // Add the paths in the middle
             for (int col = 0; col < m_pathLength; col++)
@@ -102,7 +110,11 @@ public class Grid_Controller : MonoBehaviour
 
             // Add the last set of sandcastles
             for (int castleNum = 0; castleNum < m_castleCountPerSide; castleNum++)
-                newRow.AddSquare(SpawnSquare(m_castlePrefab, newRowObj.transform, Crab_Team.Right_Team, ref nextGridCoord));
+            {
+                var castleSquare = SpawnSquare(m_castlePrefab, newRowObj.transform, Crab_Team.Right_Team, ref nextGridCoord);
+                newRow.AddSquare(castleSquare);
+                m_rightCastles.Add(castleSquare);
+            }
 
             // Add the last base
             newRow.AddSquare(SpawnSquare(m_basePrefab, newRowObj.transform, Crab_Team.Right_Team, ref nextGridCoord));
@@ -145,13 +157,24 @@ public class Grid_Controller : MonoBehaviour
 
     public Grid_Square GetRandCastleSquare(bool _leftSide)
     {
-        // Randomly select a row
-        int rowIdx = Random.Range(0, m_rows.Count);
-        var row = m_rows[rowIdx];
+        // Determine which castle list to grab from
+        var castleList = (_leftSide) ? m_leftCastles : m_rightCastles;
 
-        // Return the left or right sandcastle
-        // The left sandcastle is always the first square and the right is always the last
-        return (_leftSide) ? row.m_squares[0] : row.m_squares[row.m_squares.Count - 1];
+        // Create a list of the square that are free of crabs
+        List<Grid_Square> freeCastles = new List<Grid_Square>();
+        foreach (var castle in castleList)
+        {
+            if (m_crabManager.GetCrabAtSquare(castle) == null)
+                freeCastles.Add(castle);
+        }
+
+        // If there are no free castles, return empty
+        if (freeCastles.Count == 0)
+            return null;
+
+        // Randomly select one of the free castles and return it
+        int castleIdx = Random.Range(0, freeCastles.Count);
+        return freeCastles[castleIdx];
     }
 
 

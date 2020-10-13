@@ -50,6 +50,13 @@ public class Crab_Manager : MonoBehaviour
 
         // Determine the starting location for the crab
         Grid_Square crabStartSquare = m_grid.GetRandCastleSquare(_crabTeam == Crab_Team.Left_Team);
+
+        // If the start square is null, it means there was nowhere for the crab to spawn
+        // This means that no crab can spawn this turn
+        if (crabStartSquare == null)
+            return null;
+
+        // Convert the grid location to a world location so we actually place the crab into the world properly
         Vector3 startSquareWorldPos = m_grid.GetWorldPosFromCoord(crabStartSquare.GridCoord);
 
         // Instantiate a new crab
@@ -64,6 +71,9 @@ public class Crab_Manager : MonoBehaviour
             m_leftTeamCrabs.Add(crabScript);
         else
             m_rightTeamCrabs.Add(crabScript);
+
+        // Place the crab onto the grid mapping
+        SetCrabAtSquare(crabStartSquare, crabScript);
 
         // Return the newly spawned crab
         return crabScript;
