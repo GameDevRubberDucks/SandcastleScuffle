@@ -97,11 +97,11 @@
     <Compile Include="Assets\Studio Assets\Scripts\Crab_Controller.cs" />
     <Compile Include="Assets\Studio Assets\Scripts\Grid_Square_Base.cs" />
     <Compile Include="Assets\Studio Assets\Scripts\Grid_Square_Castle.cs" />
+    <Compile Include="Assets\Studio Assets\Scripts\Base_Controller.cs" />
   </ItemGroup>
   <ItemGroup>
      <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
-     <None Include="Assets\Studio Assets\Prefabs\PLACEHOLDER.txt" />
      <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
      <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Oswald-Bold - OFL.txt" />
      <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Anton OFL.txt" />

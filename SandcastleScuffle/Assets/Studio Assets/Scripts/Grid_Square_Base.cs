@@ -2,9 +2,17 @@
 
 public class Grid_Square_Base : MonoBehaviour
 {
+    private Base_Controller m_baseController;
+
+    private void Awake()
+    {
+        // Init the private variables
+        m_baseController = FindObjectOfType<Base_Controller>();
+    }
+
     public void TakeDamage()
     {
-        Debug.Log(Team + "'s base has been damaged");
+        m_baseController.TakeDamage(Team);
     }
 
     public Crab_Team Team
